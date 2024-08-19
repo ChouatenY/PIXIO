@@ -31,4 +31,20 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Search products
+router.get('/search', async (req, res) => {
+    const { keyword } = req.query;
+  
+    try {
+      const products = await Product.find({
+        $text: { $search: keyword }
+      });
+  
+      res.json(products);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+  
+
 module.exports = router;
